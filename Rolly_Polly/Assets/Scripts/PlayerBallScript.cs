@@ -17,16 +17,23 @@ public class PlayerBallScript : MonoBehaviour {
 	{
 		
 		if (Input.GetKey ("left")) {
+
+			//var rb = gameObject.GetComponent<Rigidbody>();
+			//rb.AddForce(-5, 0, 0);
+
 			Vector3 position = this.transform.position;
-			position.x = position.x - 0.5f;
+			position.x = position.x - 0.1f;
 			this.transform.position = position;
 		}
 		
 		
 		if (Input.GetKey ("right")) {
 			
+			//var rb = gameObject.GetComponent<Rigidbody>();
+			//rb.AddForce(5, 0, 0);
+
 			Vector3 position = this.transform.position;
-			position.x = position.x + 0.5f;
+			position.x = position.x + 0.1f;
 			this.transform.position = position;
 		}
 		
