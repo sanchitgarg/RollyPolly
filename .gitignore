@@ -1,5 +1,6 @@
 /Rolly_Polly/[Ll]ibrary/
 /Rolly_Polly/[Ll]ibrary/metaData
+/Rolly_Polly/[Ll]ibrary/assetDatabase3
 /Rolly_Polly/[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
@@ -15,6 +16,7 @@
 *.userprefs
 *.pidb
 *.booproj
+*.dwlt
 
 # Unity3D generated meta files
 *.pidb.meta
