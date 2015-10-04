@@ -4,6 +4,7 @@ using System.Collections;
 public class PathScript: MonoBehaviour {
 
 	public GameObject pathObject;
+	GameManagerScript gameManager;
 	public float zSpeed;
 	bool generate;
 
@@ -13,6 +14,9 @@ public class PathScript: MonoBehaviour {
 		var rb = GetComponent<Rigidbody> ();
 		rb.velocity = new Vector3 (0, 0, zSpeed);
 		generate = true;
+
+		GameObject g = GameObject.Find ("GameManager");
+		gameManager = g.GetComponent<GameManagerScript>();
 	}
 	
 	// Update is called once per frame
@@ -28,6 +32,7 @@ public class PathScript: MonoBehaviour {
 			generate = false;
 			Vector3 position = new Vector3(0,0, 80);
 			Instantiate(pathObject, position, Quaternion.identity);
+			gameManager.spawnObstacle();
 			Debug.Log("dsad");//position);
 		}
 
