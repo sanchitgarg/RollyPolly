@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BrickWallScript : MonoBehaviour {
+public class ObstacleMotionScript : MonoBehaviour {
 
 	GameManagerScript gameobj;
 	// Use this for initialization
@@ -12,18 +12,18 @@ public class BrickWallScript : MonoBehaviour {
 		rb.velocity = new Vector3 (0, 0, gameobj.zSpeed);
 //		Debug.Log (gameobj.zSpeed);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		
+	
 	}
 
 	void OnCollisionEnter(Collision collision)
 	{
 		Collider c = collision.collider;
-
-		 if (c.CompareTag ("DestroyPathColliderTag")) {
-//			Debug.Log("Smashed");
+		
+		if (c.CompareTag ("DestroyPathColliderTag") || c.CompareTag ("PlayerTag")) {
+			Debug.Log("Smashed");
 			Destroy(gameObject);
 		}
 	}

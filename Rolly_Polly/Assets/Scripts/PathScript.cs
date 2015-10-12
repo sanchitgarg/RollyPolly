@@ -33,7 +33,6 @@ public class PathScript: MonoBehaviour {
 			Vector3 position = new Vector3(0,0, 80);
 			Instantiate(pathObject, position, Quaternion.identity);
 			gameManager.spawnObstacle();
-			Debug.Log("dsad");//position);
 		}
 
 		else if (c.CompareTag ("DestroyPathColliderTag")) {
