@@ -30,6 +30,9 @@ public class GameManagerScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (health <= 0) {
+			//TODO Game End Screen
+		}
 	}
 
 	void FixedUpdate ()
@@ -53,7 +56,7 @@ public class GameManagerScript : MonoBehaviour {
 
 		//Adding obstacles
 		for (int i=0; i<3; ++i) {
-			int randomNum = Random.Range (0, 7);
+			int randomNum = Random.Range (0, 9);
 
 			switch (randomNum) {
 				case 0:
