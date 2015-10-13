@@ -32,6 +32,7 @@ public class GameManagerScript : MonoBehaviour {
 
 		if (health <= 0) {
 			//TODO Game End Screen
+			Application.LoadLevel("GameEndScene");
 		}
 	}
 
