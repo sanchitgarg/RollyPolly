@@ -18,6 +18,7 @@ public class GameManagerScript : MonoBehaviour {
 	public int health;
 	public int coinCount;
 
+
 	// Use this for initialization
 	void Start () {
 		spawnObstacle();
