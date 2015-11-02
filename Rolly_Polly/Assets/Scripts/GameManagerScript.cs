@@ -12,6 +12,10 @@ public class GameManagerScript : MonoBehaviour {
 	public GameObject tetrahedron;
 	public GameObject coin;
 
+	public GameObject healthobject;
+	public GameObject rubber_power_up_object;
+	public GameObject steel_power_up_object;
+
 	public float zSpeed;
 
 	public int score;
@@ -22,7 +26,7 @@ public class GameManagerScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		spawnObstacle();
-		zSpeed = -20.0f;
+		zSpeed = -5.0f;
 		score = 0;
 		coinCount = 0;
 		health = 100;
@@ -34,12 +38,43 @@ public class GameManagerScript : MonoBehaviour {
 		if (health <= 0) {
 			//TODO Game End Screen
 			Application.LoadLevel("GameEndScene");
+
+		}
+		if (score % 500 == 0) {
+			spawnbonuses();
 		}
 	}
 
 	void FixedUpdate ()
 	{
 		score ++;
+
+	}
+
+	void spawnbonuses()
+	{
+		int randomNum = Random.Range (0,3);
+
+		float x = Random.Range (-2.0f, 2.0f);
+		Vector3 v = new Vector3(0.0f, 1.0f, 73.0f);
+		v.x = x;
+		switch (randomNum) {
+		case 0:
+		//Instantiate position
+		
+
+		//Health Drop
+		Instantiate (healthobject, v, Quaternion.identity);
+			break;
+
+		case 1:Instantiate (rubber_power_up_object, v, Quaternion.identity);
+			break;
+		case 2:Instantiate (steel_power_up_object, v, Quaternion.identity);
+			break;
+
+		default:break;
+
+		}
 	}
 
 	public void spawnObstacle()

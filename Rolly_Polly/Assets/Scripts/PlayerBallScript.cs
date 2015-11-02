@@ -45,7 +45,7 @@ public class PlayerBallScript : MonoBehaviour {
 	void Update () {
 		transform.Rotate(6.0f*rotationsPerMinute*Time.deltaTime,0.0f,0.0f);
 		if (property == BallProperty.Rubber) {
-			RubberBarSlider.value -= Time.deltaTime * 0.2f;
+			RubberBarSlider.value -= Time.deltaTime * 0.05f;
 			if(RubberBarSlider.value <= 0)
 			{
 				GetComponent<Renderer>().material.mainTexture = null;
@@ -53,7 +53,7 @@ public class PlayerBallScript : MonoBehaviour {
 			}
 		}
 		if (property == BallProperty.Steel) {
-			SteelBarSlider.value -= Time.deltaTime * 0.2f;
+			SteelBarSlider.value -= Time.deltaTime * 0.05f;
 			if(SteelBarSlider.value <= 0)
 			{
 				GetComponent<Renderer>().material.mainTexture = null;
@@ -71,35 +71,38 @@ public class PlayerBallScript : MonoBehaviour {
 
 	void FixedUpdate()
 	{
-		
+
 		if (Input.GetKey ("left")) {
 
-			//var rb = gameObject.GetComponent<Rigidbody>();
-			//rb.AddForce(-5, 0, 0);
-
-			Vector3 position = this.transform.position;
-			position.x = position.x - 0.1f;
-			this.transform.position = position;
+			var rb = gameObject.GetComponent<Rigidbody>();
+			rb.AddForce(-4, 0, 0);
+			//rb.transform.Rotate(6.0f*rotationsPerMinute*Time.deltaTime,0.0f,0.0f);
+			//Vector3 position = this.transform.position;
+			//position.x = position.x - 0.1f;
+			//this.transform.position = position;
 		}
 		
 		
 		if (Input.GetKey ("right")) {
 			
-			//var rb = gameObject.GetComponent<Rigidbody>();
-			//rb.AddForce(5, 0, 0);
-
-			Vector3 position = this.transform.position;
-			position.x = position.x + 0.1f;
-			this.transform.position = position;
+			var rb = gameObject.GetComponent<Rigidbody>();
+			rb.AddForce(4, 0, 0);
+			//rb.transform.Rotate(6.0f*rotationsPerMinute*Time.deltaTime,0.0f,0.0f);
+			//Vector3 position = this.transform.position;
+			//position.x = position.x + 0.1f;
+			//this.transform.position = position;
 		}
 
-		if(Input.GetKeyDown ("space") && canJump && property == BallProperty.Rubber)
+		if((Input.GetKeyDown ("space")||Input.GetButtonDown("Rubber_jump")) && canJump && property == BallProperty.Rubber)
 		{
 			//Debug.Log("space down");
 			canJump = false;
 
 			var rb = gameObject.GetComponent<Rigidbody>();
 			rb.AddForce(new Vector3(0, thrust, 0));
+
+			GetComponent<Collider>().material.bounciness = 1.0f;
+
 		}
 		if (Input.GetKey ("1")) {
 			GetComponent<Renderer>().material.mainTexture = null;
@@ -129,6 +132,20 @@ public class PlayerBallScript : MonoBehaviour {
 		}
 		else if (c.CompareTag ("WallLowerTag") || c.CompareTag ("WallLeftColliderTag") || c.CompareTag ("WallRightColliderTag")) {
 			canJump = true;
+		}
+		else if(c.CompareTag("HealthTag"))
+		{
+			//Debug.Log ("Health reset to 100");
+			globalObj.health = 100;
+			HealthBarSlider.value = 1.0f;
+		}
+		else if(c.CompareTag("RubberPowerTag"))
+		{
+			RubberBarSlider.value = 1.0f;
+		}
+		else if(c.CompareTag("SteelPowerTag"))
+		{
+			SteelBarSlider.value = 1.0f;
 		}
 		else {
 			if(property!=BallProperty.Steel)
