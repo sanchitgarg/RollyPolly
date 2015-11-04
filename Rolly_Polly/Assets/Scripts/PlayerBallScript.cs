@@ -30,6 +30,10 @@ public class PlayerBallScript : MonoBehaviour {
 	GameManagerScript globalObj;
 	AudioManagerScript AudioManager;
 
+	private Vector3 v3Pos;
+
+	float keepBouncing;
+
 	// Use this for initialization
 	void Start () {
 		GameObject g = GameObject.Find ("GameManager"); 
@@ -43,7 +47,12 @@ public class PlayerBallScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		transform.Rotate(6.0f*rotationsPerMinute*Time.deltaTime,0.0f,0.0f);
+
+		var rb = gameObject.GetComponent<Rigidbody>();
+		rb.AddTorque (10.0f, 0.0f, 0.0f);
+
 		if (property == BallProperty.Rubber) {
 			RubberBarSlider.value -= Time.deltaTime * 0.05f;
 			if(RubberBarSlider.value <= 0)
@@ -67,6 +76,7 @@ public class PlayerBallScript : MonoBehaviour {
 				movingup.y = 2.0f;
 			this.transform.position = movingup;
 		}
+
 	}
 
 	void FixedUpdate()
@@ -102,24 +112,76 @@ public class PlayerBallScript : MonoBehaviour {
 			rb.AddForce(new Vector3(0, thrust, 0));
 
 			GetComponent<Collider>().material.bounciness = 1.0f;
+			keepBouncing = 4.0f;
+		}
 
+		if (keepBouncing > 0 && canJump) {
+			canJump = false;
+			
+			var rb = gameObject.GetComponent<Rigidbody>();
+//			float b = keepBouncing;
+			rb.AddForce(new Vector3(0, thrust / (6.0f - keepBouncing), 0));
+			keepBouncing -= 1.0f;
+
+			//GetComponent<Collider>().material.bounciness = 1000.0f;
 		}
 		if (Input.GetKey ("1")) {
 			GetComponent<Renderer>().material.mainTexture = null;
+			gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+			GetComponent<Rigidbody>().mass = 1.0f;
 			property = BallProperty.Normal;
 		}
 		if (Input.GetKey ("2")) {
 			GetComponent<Renderer>().material.mainTexture = rubberball;
+			gameObject.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+			GetComponent<Rigidbody>().mass = 1.0f;
 			property = BallProperty.Rubber;
 		}
 		if (Input.GetKey ("3")) {
 			GetComponent<Renderer>().material.mainTexture = steelball;
+			gameObject.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+			GetComponent<Rigidbody>().mass = 5.0f;
 			property = BallProperty.Steel;
 		}
-		if (Input.GetKey ("4")) {
-			GetComponent<Renderer>().material.mainTexture = bubbleball;
-			property = BallProperty.Bubble;
+//		if (Input.GetKey ("4")) {
+//			GetComponent<Renderer>().material.mainTexture = bubbleball;
+//			property = BallProperty.Bubble;
+//		}
+	}
+
+	void OnMouseDown() {
+		//	Debug.Log ("Mouse Clicked");
+		v3Pos = Input.mousePosition;
+	}
+
+	//Implementing Mouse inputs
+	// Reference : http://answers.unity3d.com/questions/452018/how-to-get-the-mouse-direction-while-left-click-is.html
+	void OnMouseDrag()
+	{
+		var v3 = Input.mousePosition - v3Pos;
+		v3.Normalize();
+		var f = Vector3.Dot(v3, Vector3.up);
+
+		f = Vector3.Dot(v3, Vector3.right);
+		if (f > 0.005f) {
+			//Debug.Log("Right");
+			//Debug.Log(f);
+
+			f = Mathf.Clamp(f, 0.5f, 5.0f) * 10.0f;
+			var rb = gameObject.GetComponent<Rigidbody>();
+			rb.AddForce(f, 0, 0);
+
 		}
+		else if(f < -0.005f) {
+			//Debug.Log("Left, ");
+			//Debug.Log(f);
+		
+			f = Mathf.Clamp(f, -5.0f, -0.5f)  * 10.0f;
+			var rb = gameObject.GetComponent<Rigidbody>();
+			rb.AddForce(f, 0, 0);
+		}
+
+		v3Pos = Input.mousePosition;
 	}
 
 	void OnCollisionEnter(Collision collision)
@@ -152,6 +214,15 @@ public class PlayerBallScript : MonoBehaviour {
 			{
 				globalObj.health = globalObj.health - 10;
 				HealthBarSlider.value -= 0.1f;
+			}
+
+			if(property == BallProperty.Steel && c.CompareTag("MagnetWallTag"))
+			{
+				SteelBarSlider.value = 0.0f;
+			}
+			else if(property == BallProperty.Rubber && c.CompareTag("TetrahedronTag"))
+			{
+				RubberBarSlider.value = 0.0f;
 			}
 
 			AudioManager.playObstacleCollideSound();

@@ -18,13 +18,13 @@ public class AudioManagerScript : MonoBehaviour {
 
 	public void playCoinSound()
 	{
-		Debug.Log ("coin sound played");
+		//Debug.Log ("coin sound played");
 		AudioSource.PlayClipAtPoint (coins, gameObject.transform.position);
 	}
 
 	public void playObstacleCollideSound()
 	{
-		Debug.Log ("collision sound played");
+		//Debug.Log ("collision sound played");
 		AudioSource.PlayClipAtPoint (explosion, gameObject.transform.position);
 	}
 }

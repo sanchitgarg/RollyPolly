@@ -23,7 +23,7 @@ public class ObstacleMotionScript : MonoBehaviour {
 		Collider c = collision.collider;
 		
 		if (c.CompareTag ("DestroyPathColliderTag") || c.CompareTag ("PlayerTag")) {
-			Debug.Log("Smashed");
+			//Debug.Log("Smashed");
 			Destroy(gameObject);
 		}
 	}

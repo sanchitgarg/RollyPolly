@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class HealthUpdateScript : MonoBehaviour {
-
 	
 	GameManagerScript globalObj;
 	Text healthText;
@@ -18,6 +17,6 @@ public class HealthUpdateScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//healthText.text = "Health" + globalObj.health.ToString();
+		healthText.text = "Health" + globalObj.health.ToString();
 	}
 }
