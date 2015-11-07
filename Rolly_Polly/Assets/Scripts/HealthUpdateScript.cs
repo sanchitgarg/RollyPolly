@@ -17,6 +17,6 @@ public class HealthUpdateScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		healthText.text = "Health" + globalObj.health.ToString();
+		//healthText.text = "Health" + globalObj.health.ToString();
 	}
 }

@@ -54,19 +54,21 @@ public class PlayerBallScript : MonoBehaviour {
 		rb.AddTorque (10.0f, 0.0f, 0.0f);
 
 		if (property == BallProperty.Rubber) {
-			RubberBarSlider.value -= Time.deltaTime * 0.05f;
+			RubberBarSlider.value -= Time.deltaTime * 0.01f;
 			if(RubberBarSlider.value <= 0)
 			{
 				GetComponent<Renderer>().material.mainTexture = null;
 				property = BallProperty.Normal;
+				gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
 			}
 		}
 		if (property == BallProperty.Steel) {
-			SteelBarSlider.value -= Time.deltaTime * 0.05f;
+			SteelBarSlider.value -= Time.deltaTime * 0.01f;
 			if(SteelBarSlider.value <= 0)
 			{
 				GetComponent<Renderer>().material.mainTexture = null;
 				property = BallProperty.Normal;
+				gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
 			}
 		}
 		if (property == BallProperty.Bubble) {
